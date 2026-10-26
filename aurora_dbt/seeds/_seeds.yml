@@ -1,0 +1,22 @@
+version: 2
+
+seeds:
+  - name: sf_paths
+    description: >
+      Five candidate SF Bay Area AV routes from the take-home prompt, as WKT
+      linestrings with route length in miles. Converted to geometry in staging.
+    config:
+      column_types:
+        path_name: text
+        path_wkt: text
+        distance_mi: double precision
+    columns:
+      - name: path_name
+        description: Route label as provided (e.g. "SF -> Berkley", sic).
+        data_tests: [unique, not_null]
+      - name: path_wkt
+        description: Route geometry, WKT LINESTRING of lon/lat pairs (WGS84).
+        data_tests: [not_null]
+      - name: distance_mi
+        description: Route length in miles as provided.
+        data_tests: [not_null]

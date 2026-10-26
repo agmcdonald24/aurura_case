@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: us_constructions
+        description: >
+          Kaggle "US Road Construction and Closures (2016–2021)", loaded as-is by
+          scripts/load_raw.py. One row per reported event; contains provider re-pulls
+          of the same event. See docs/data_dictionary.md.
