@@ -20,3 +20,22 @@ seeds:
       - name: distance_mi
         description: Route length in miles as provided.
         data_tests: [not_null]
+
+  - name: city_reference
+    description: >
+      The ten largest US cities by 2020 Census population, with city-proper land area
+      from the Census Gazetteer. Denominators for Q3. Road miles would be the better
+      denominator for an AV use case and is noted as the alternative.
+    config:
+      column_types:
+        city: text
+        state: text
+        population_2020: integer
+        land_area_sq_mi: double precision
+    columns:
+      - name: city
+        data_tests: [ unique, not_null ]
+      - name: population_2020
+        data_tests: [ not_null ]
+      - name: land_area_sq_mi
+        data_tests: [ not_null ]
