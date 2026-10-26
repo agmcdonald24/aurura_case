@@ -18,9 +18,13 @@ series, and no chart with two y-axes — two measures get two panels.
 import csv
 from pathlib import Path
 
+import logging
+
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+
+logging.getLogger("matplotlib.font_manager").setLevel(logging.ERROR)   # no findfont noise
 from matplotlib.ticker import FuncFormatter
 
 HERE = Path(__file__).resolve().parent
@@ -43,7 +47,7 @@ ROUTE_COLOURS = {        # validated for colour-vision separation and contrast
 ROUTE_LABELS = {k: k.replace("SF -> ", "").replace("Berkley", "Berkeley") for k in ROUTE_COLOURS}
 
 plt.rcParams.update({
-    "font.family": ["Arial", "Liberation Sans", "DejaVu Sans"],
+    "font.family": ["Arial", "DejaVu Sans"],      # Arial on the Mac; DejaVu ships with matplotlib
     "font.size": 11,
     "text.color": INK,
     "axes.edgecolor": GRID,
@@ -107,25 +111,20 @@ def fig_q1_ten_cities():
     rows = read("01_q1_top_cities")[:10]
     rows.sort(key=lambda r: num(r["hours"]))              # ascending so the top city is at the top
     cities = [f'{r["city"]}, {r["state"]}' for r in rows]
-    hours = [num(r["hours"]) for r in rows]
-    events = [num(r["events"]) for r in rows]
+    hours = [num(r["hours"]) for r in rows] or [0]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 4.4), sharey=True,
-                                   gridspec_kw={"wspace": 0.12})
-    for ax, values, title in ((ax1, hours, "Construction hours, 2017–2021"),
-                              (ax2, events, "Construction events, 2017–2021")):
-        values = values or [0]
-        bars = ax.barh(cities, values, color=BLUE, height=0.62)
-        ax.set_title(title, loc="left")
-        ax.xaxis.set_major_formatter(FuncFormatter(fmt_compact))
-        ax.grid(axis="y", visible=False)
-        tidy(ax, left=False)
-        xmax = max(values)
-        ax.set_xlim(0, xmax * 1.18)
-        for bar, v in zip(bars, values):
-            ax.text(bar.get_width() + xmax * 0.015, bar.get_y() + bar.get_height() / 2,
-                    fmt_compact(v), va="center", ha="left", fontsize=10, color=INK)
-    ax1.tick_params(axis="y", labelsize=11, colors=INK)
+    fig, ax = plt.subplots(figsize=(8.2, 4.4))
+    bars = ax.barh(cities, hours, color=BLUE, height=0.62)
+    ax.set_title("Construction hours, 2017–2021, the ten cities with the most", loc="left")
+    ax.xaxis.set_major_formatter(FuncFormatter(fmt_compact))
+    ax.grid(axis="y", visible=False)
+    tidy(ax, left=False)
+    xmax = max(hours)
+    ax.set_xlim(0, xmax * 1.18)
+    for bar, v in zip(bars, hours):
+        ax.text(bar.get_width() + xmax * 0.015, bar.get_y() + bar.get_height() / 2,
+                fmt_compact(v), va="center", ha="left", fontsize=10, color=INK)
+    ax.tick_params(axis="y", labelsize=11, colors=INK)
     save(fig, "q1_ten_cities.png")
 
 
@@ -162,7 +161,7 @@ def fig_q2_small_multiples():
         ax.tick_params(axis="y", which="minor", left=False)
     for ax in axes[:, 0]:
         ax.tick_params(axis="y", labelsize=9)
-    fig.suptitle("Construction hours by year, the ten cities with the most hours (log scale; 2021 in dark blue)",
+    fig.suptitle("Construction hours by year, top ten cities (log scale; 2021 in dark blue)",
                  x=0.125, y=0.99, ha="left", fontsize=12, fontweight="bold", color=INK)
     save(fig, "q2_city_small_multiples.png")
 

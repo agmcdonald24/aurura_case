@@ -1,5 +1,5 @@
 {
-  "pulled_at": "2026-10-26T13:00-04:00",
+  "pulled_at": "2026-10-26T14:52-04:00",
   "database": "127.0.0.1:5433/case_study",
   "queries": {
     "01_q1_top_cities": {
@@ -20,7 +20,7 @@
     },
     "05_q2_decomposition_by_year": {
       "rows": 6,
-      "seconds": 2.5
+      "seconds": 2.6
     },
     "06_q2_new_york_by_year": {
       "rows": 6,
@@ -44,11 +44,15 @@
     },
     "11_duration_distribution": {
       "rows": 12,
-      "seconds": 0.4
+      "seconds": 0.3
     },
     "12_row_counts": {
       "rows": 6,
-      "seconds": 0.7
+      "seconds": 0.6
+    },
+    "13_seasonal_pattern_examples": {
+      "rows": 12,
+      "seconds": 1.9
     }
   },
   "note": "transcribed from DataGrip output; run pull_deck_data.py to replace"
