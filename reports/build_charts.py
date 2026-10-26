@@ -104,9 +104,9 @@ def save(fig, name: str):
 
 # --- figure 1: Q1, the ten cities --------------------------------------------
 def fig_q1_ten_cities():
-    rows = read("02_q1_ten_cities")
+    rows = read("01_q1_top_cities")[:10]
     rows.sort(key=lambda r: num(r["hours"]))              # ascending so the top city is at the top
-    cities = [r["city"] for r in rows]
+    cities = [f'{r["city"]}, {r["state"]}' for r in rows]
     hours = [num(r["hours"]) for r in rows]
     events = [num(r["events"]) for r in rows]
 
@@ -114,6 +114,7 @@ def fig_q1_ten_cities():
                                    gridspec_kw={"wspace": 0.12})
     for ax, values, title in ((ax1, hours, "Construction hours, 2017–2021"),
                               (ax2, events, "Construction events, 2017–2021")):
+        values = values or [0]
         bars = ax.barh(cities, values, color=BLUE, height=0.62)
         ax.set_title(title, loc="left")
         ax.xaxis.set_major_formatter(FuncFormatter(fmt_compact))
@@ -131,15 +132,20 @@ def fig_q1_ten_cities():
 # --- figure 2: Q2, small multiples by year -----------------------------------
 def fig_q2_small_multiples():
     rows = read("03_q2_ten_cities_by_year")
-    order = [r["city"] for r in read("02_q1_ten_cities")]     # same order as Q1, by hours
+    order = [r["city"] for r in read("01_q1_top_cities")[:10]]   # same order as Q1, by hours
     by_city = {c: {} for c in order}
     for r in rows:
-        by_city[r["city"]][int(r["year"])] = num(r["hours"])
+        if r["city"] in by_city:
+            by_city[r["city"]][int(r["year"])] = num(r["hours"])
+    order = [c for c in order if by_city[c]]
     years = [2017, 2018, 2019, 2020, 2021]
 
     fig, axes = plt.subplots(2, 5, figsize=(11, 4.6), sharey=True,
                              gridspec_kw={"wspace": 0.08, "hspace": 0.55})
+    for ax in axes.flat:
+        ax.set_visible(False)
     for ax, city in zip(axes.flat, order):
+        ax.set_visible(True)
         vals = [by_city[city].get(y, 0) for y in years]
         colours = [BLUE_LIGHT] * 4 + [BLUE]
         ax.bar([str(y)[2:] for y in years], vals, color=colours, width=0.7)
@@ -156,7 +162,7 @@ def fig_q2_small_multiples():
         ax.tick_params(axis="y", which="minor", left=False)
     for ax in axes[:, 0]:
         ax.tick_params(axis="y", labelsize=9)
-    fig.suptitle("Construction hours by year, ten largest cities (log scale; 2021 in dark blue)",
+    fig.suptitle("Construction hours by year, the ten cities with the most hours (log scale; 2021 in dark blue)",
                  x=0.125, y=0.99, ha="left", fontsize=12, fontweight="bold", color=INK)
     save(fig, "q2_city_small_multiples.png")
 

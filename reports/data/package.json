@@ -1,0 +1,55 @@
+{
+  "pulled_at": "2026-10-26T13:00-04:00",
+  "database": "127.0.0.1:5433/case_study",
+  "queries": {
+    "01_q1_top_cities": {
+      "rows": 10,
+      "seconds": 0.1
+    },
+    "02_q1_ten_cities": {
+      "rows": 10,
+      "seconds": 0.0
+    },
+    "03_q2_ten_cities_by_year": {
+      "rows": 50,
+      "seconds": 0.1
+    },
+    "04_q2_national_monthly": {
+      "rows": 60,
+      "seconds": 0.0
+    },
+    "05_q2_decomposition_by_year": {
+      "rows": 6,
+      "seconds": 2.5
+    },
+    "06_q2_new_york_by_year": {
+      "rows": 6,
+      "seconds": 0.2
+    },
+    "07_q3_city_comparison": {
+      "rows": 10,
+      "seconds": 0.0
+    },
+    "08_q4_route_exposure": {
+      "rows": 30,
+      "seconds": 0.0
+    },
+    "09_q4_berkeley_2021_descriptions": {
+      "rows": 12,
+      "seconds": 0.1
+    },
+    "10_staging_flags": {
+      "rows": 2,
+      "seconds": 2.7
+    },
+    "11_duration_distribution": {
+      "rows": 12,
+      "seconds": 0.4
+    },
+    "12_row_counts": {
+      "rows": 6,
+      "seconds": 0.7
+    }
+  },
+  "note": "transcribed from DataGrip output; run pull_deck_data.py to replace"
+}

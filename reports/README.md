@@ -35,22 +35,20 @@ grids straight from the database; the numbers are the same, the provenance is cl
 | `figures/*.png` | The figures |
 | `build_deck.py` | The deck, python-pptx, from `data/` + `figures/` + `media/` |
 | `media/` | Aurora cover photo, wordmark and mark from the public media kit (aurora.tech/aurora-media-kit) |
-| `Aurora_Construction_Take_Home.pptx` | The deliverable, 17 slides |
+| `Aurora_Construction_Take_Home.pptx` | The deliverable, 15 slides |
 
 ## Which slide reads which query
 
 | Slide | Query | Reads |
 |---|---|---|
-| 3 Environment and load | `12_row_counts` | raw, stg_construction |
-| 5–6 Problems found, staging rules | `10_staging_flags`, `12_row_counts` | stg_construction |
-| 7 Q1 | `02_q1_ten_cities` | int_city_month_hours |
-| 8 Q2 small multiples | `03_q2_ten_cities_by_year` | int_city_month_hours |
-| 9 Q2 three changes | `04_q2_national_monthly`, `05_q2_decomposition_by_year` | int_city_month_hours, stg_construction |
-| 10 Q2 New York | `06_q2_new_york_by_year` | stg_construction |
-| 11 Q3 | `07_q3_city_comparison` | fct_city_comparison |
-| 12 Q4 | `08_q4_route_exposure` | fct_route_exposure |
-| 13 Q4 validation | `09_q4_berkeley_2021_descriptions` | int_route_events, stg_construction |
-| — | `01_q1_top_cities`, `11_duration_distribution` | log only; not on a slide |
+| 3–5 Tools, looking at the data, staging | `10_staging_flags`, `12_row_counts` | raw, stg_construction |
+| 6 Q1 | `01_q1_top_cities` | int_city_month_hours |
+| 7 Q2, why the list looks like this | `03_q2_ten_cities_by_year` | int_city_month_hours |
+| 8 Q2, over time | `04_q2_national_monthly`, `05_q2_decomposition_by_year` | int_city_month_hours, stg_construction |
+| 9 Q3 | `07_q3_city_comparison` | fct_city_comparison |
+| 10 Q4 | `08_q4_route_exposure` | fct_route_exposure |
+| 11 Q4 check | `09_q4_berkeley_2021_descriptions` | int_route_events, stg_construction |
+| — | `02_q1_ten_cities`, `06_q2_new_york_by_year`, `11_duration_distribution` | log only; not on a slide |
 
 ## Data validation
 
@@ -89,8 +87,9 @@ The deck follows the Dollar Bank standard (`docs/document.md` in the dbt_local r
 mechanics — script-built, every number traceable, captions carry denominators, limits stated
 in-line, no tells — with four exceptions that the brief itself asks for:
 
-1. **Narrative order, not summary-first.** The deck walks through the work as it happened,
-   because the brief says they are assessing "your reasoning through these questions".
+1. **Narrative order, not summary-first, in the first person.** The deck walks through the
+   work as it happened and reads the way it would be said out loud, because the brief says
+   they are assessing "your reasoning through these questions".
 2. **AI tools are named.** Q6 asks which tools were used and how.
 3. **The analytics environment is named.** The brief says "submit all your code"; the code
    is the point.
